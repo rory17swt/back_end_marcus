@@ -8,9 +8,10 @@ class Event(models.Model):
         on_delete=models.CASCADE,
         related_name='events'
     )
+    title = models.CharField(max_length=100)
     image = models.CharField(max_length=5000)
     datetime = models.DateTimeField()
     location = models.CharField(max_length=500)
 
 def __str__(self):
-    return f"{self.datetime} @ {self.location}"
+    return f"{self.datetime} @ {self.title}"
