@@ -11,6 +11,7 @@ pylint = "*"
 djangorestframework = "*"
 django-environ = "*"
 djangorestframework-simplejwt = "*"
+cloudinary = "*"
 
 [dev-packages]
 
