@@ -5,7 +5,7 @@ import os
 class BioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bio
-        fields = ['__all__']
+        fields = ['id', 'bio', 'cv', 'updated_at']
         read_only_fields = ['updated_at']
 
     def validate_cv(self, value):

@@ -3,7 +3,7 @@ from django.conf import settings
 
 # Create your models here.
 class Bio(models.Model):
-    owner = models.ForeignKey(
+    owner = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='bio'
@@ -13,4 +13,4 @@ class Bio(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.bio}"
+        return f"Bio for {self.owner.username}"

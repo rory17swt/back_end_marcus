@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from rest_framework.exceptions import NotFound, PermissionDenied
 from .models import Bio
 from .serializers.common import BioSerializer
 
@@ -9,15 +10,21 @@ class BioDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        return Bio.objects.get(owner=self.request.user)
+        try:
+            return self.request.user.bio
+        except Bio.DoesNotExist:
+            raise NotFound("You haven't created your bio yest")
     
 # Authenticated Client View for POST
 class CreateBioView(generics.CreateAPIView):
     serializer_class = BioSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def perfrom_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    def perform_create(self, serializer):
+        user = self.request.user
+        if hasattr(user, 'bio'):
+            raise PermissionDenied("You have already created you bio.")
+        serializer.save(owner=user)
 
 # Public View
 class PublicBioView(generics.RetrieveAPIView):
@@ -25,4 +32,4 @@ class PublicBioView(generics.RetrieveAPIView):
     permission_classes = []
 
     def get_object(self):
-        return Bio.objects.get(owner__id=2)
+        return Bio.objects.get(owner__id=3)
