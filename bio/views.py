@@ -5,7 +5,7 @@ from .serializers.common import BioSerializer
 
 
 # Authenticated Client View for GET / PUT / PATCH / DELETE
-class BioDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
+class BioDetailUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BioSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -32,4 +32,7 @@ class PublicBioView(generics.RetrieveAPIView):
     permission_classes = []
 
     def get_object(self):
-        return Bio.objects.get(owner__id=3)
+        try:
+            return Bio.objects.get(owner__id=3)
+        except Bio.DoesNotExist:
+            raise NotFound("Bio does not exist.")
