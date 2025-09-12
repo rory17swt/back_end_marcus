@@ -28,5 +28,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view()),
     path('api/', include('events.urls')),
     path('api/', include('bio.urls')),
+    path('api/', include('media.urls'))
 ]
 
