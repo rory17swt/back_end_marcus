@@ -14,11 +14,13 @@ class MediaListCreate(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
+    # Index
     def get(self, request):
         medias = Media.objects.all()
         serializer = MediaSerializer(medias, many=True)
         return Response(serializer.data)
 
+    # Create
     def post(self, request):
         data = handle_file_upload(request, 'image', folder='marcus_uploads')
         data['owner'] = request.user.id
@@ -32,11 +34,13 @@ class MediaDetailView(APIView):
     permission_classes = [IsOwnerOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
+    # Show
     def get(self, request, pk):
         media = get_object_or_404(Media, pk=pk)
         serializer = MediaSerializer(media)
         return Response(serializer.data)
 
+    # Delete
     def delete(self, request, pk):
         media = get_object_or_404(Media, pk=pk)
         self.check_object_permissions(request, media)
