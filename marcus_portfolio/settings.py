@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'events',
-    'bio'
+    'bio',
+    'media'
 ]
 
 cloudinary.config( 
