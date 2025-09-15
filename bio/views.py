@@ -12,7 +12,7 @@ class CreateBioView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
 
-        # Handle CV file upload to Cloudinary if provided
+        # Handle CV file upload to Cloudinary
         if 'cv' in request.FILES:
             res = upload(request.FILES['cv'], folder='marcus_cv')
             data['cv'] = res['secure_url']
@@ -24,7 +24,7 @@ class CreateBioView(generics.CreateAPIView):
         if hasattr(user, 'bio'):
             raise PermissionDenied("You have already created your bio.")
 
-        # Crucial: pass owner here to serializer.save()
+        # Pass owner to serializer.save()
         self.perform_create(serializer, user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=201, headers=headers)
@@ -64,7 +64,6 @@ class PublicBioView(generics.RetrieveAPIView):
     permission_classes = []
 
     def get_object(self):
-        # Adjust this as needed to fetch the correct public bio
         try:
             return Bio.objects.get(owner__id=3)
         except Bio.DoesNotExist:

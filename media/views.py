@@ -22,8 +22,14 @@ class MediaListCreate(APIView):
 
     # Create
     def post(self, request):
-        data = handle_file_upload(request, 'image', folder='marcus_uploads')
+        data = request.data.copy()
+       
+        if 'image' in request.FILES:
+            image_upload_data = handle_file_upload(request, 'image', folder='marcus_uploads')
+            data['image'] = image_upload_data.get('image')
+
         data['owner'] = request.user.id
+
         serializer = MediaSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -45,4 +51,4 @@ class MediaDetailView(APIView):
         media = get_object_or_404(Media, pk=pk)
         self.check_object_permissions(request, media)
         media.delete()
-        return Response({ "detail": "Media deleted" }, status=204)
+        return Response({"detail": "Media deleted"}, status=204)

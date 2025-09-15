@@ -8,7 +8,7 @@ class Media(models.Model):
         on_delete=models.CASCADE,
         related_name='media'
     )
-    image = models.CharField(max_length=500)
+    image = models.CharField(max_length=500, blank=True, null=True)
     youtube_url = models.URLField(blank=True, null=True, help_text="Paste the full YouTube URL")
     created_at = models.DateTimeField(auto_now_add=True)
 
