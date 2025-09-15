@@ -12,6 +12,7 @@ djangorestframework = "*"
 django-environ = "*"
 djangorestframework-simplejwt = "*"
 cloudinary = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 
