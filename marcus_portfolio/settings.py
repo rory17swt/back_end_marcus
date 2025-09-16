@@ -67,9 +67,19 @@ cloudinary.config(
   secure = not DEBUG
 )
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.hostedemail.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'marcus@swietlicki.eu'
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),  # ⏳ 24-hour token expiry
-    "TOKEN_OBTAIN_SERIALIZER": "users.serializers.tokens.CustomTokenSerializer",  # 🔧 optional custom serializer
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "TOKEN_OBTAIN_SERIALIZER": "users.serializers.tokens.CustomTokenSerializer",
 }
 
 REST_FRAMEWORK = {
