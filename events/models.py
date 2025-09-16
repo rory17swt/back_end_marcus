@@ -14,4 +14,4 @@ class Event(models.Model):
     location = models.CharField(max_length=500)
 
 def __str__(self):
-    return f"{self.datetime} @ {self.title}"
+    return f"{self.datetime} {self.title}"

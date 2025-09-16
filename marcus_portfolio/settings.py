@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'users',
     'events',
     'bio',
-    'media'
+    'media',
+    'contact'
 ]
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
