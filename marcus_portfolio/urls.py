@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/', include('events.urls')),
     path('api/', include('bio.urls')),
     path('api/', include('media.urls')),
-    path('api/', include('contact.urls'))
+    path('api/', include('contact.urls')),
+    path('api/', include('users.urls'))
 ]
 
