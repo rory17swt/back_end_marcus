@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from rest_framework.exceptions import NotFound, PermissionDenied
+from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 from rest_framework.response import Response
 from cloudinary.uploader import upload
 from .models import Bio
@@ -12,9 +12,12 @@ class CreateBioView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
 
-        # Handle CV file upload to Cloudinary
         if 'cv' in request.FILES:
-            res = upload(request.FILES['cv'], folder='marcus_cv')
+            cv_file = request.FILES['cv']
+            if cv_file.content_type != 'application/pdf':
+                raise ValidationError("Only PDF files are allowed for CV uploads.")
+
+            res = upload(cv_file, folder='marcus_cv', resource_type='raw', type='upload')
             data['cv'] = res['secure_url']
 
         serializer = self.get_serializer(data=data)
@@ -24,14 +27,12 @@ class CreateBioView(generics.CreateAPIView):
         if hasattr(user, 'bio'):
             raise PermissionDenied("You have already created your bio.")
 
-        # Pass owner to serializer.save()
         self.perform_create(serializer, user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=201, headers=headers)
 
     def perform_create(self, serializer, user):
         serializer.save(owner=user)
-
 
 
 class BioDetailUpdateView(generics.RetrieveUpdateAPIView):
@@ -50,12 +51,17 @@ class BioDetailUpdateView(generics.RetrieveUpdateAPIView):
         data = request.data.copy()
 
         if 'cv' in request.FILES:
-            res = upload(request.FILES['cv'], folder='marcus_cv')
+            cv_file = request.FILES['cv']
+            if cv_file.content_type != 'application/pdf':
+                raise ValidationError("Only PDF files are allowed for CV uploads.")
+
+            res = upload(cv_file, folder='marcus_cv', resource_type='raw', type='upload')
             data['cv'] = res['secure_url']
 
         serializer = self.get_serializer(instance, data=data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+
         return Response(serializer.data)
 
 
