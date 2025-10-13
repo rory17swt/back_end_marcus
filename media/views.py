@@ -22,8 +22,15 @@ class MediaListCreate(APIView):
 
     # Create
     def post(self, request):
-        data = request.data.copy()
+        # Don't use .copy() with files - use a regular dict instead
+        data = {}
+        
+        # Copy regular fields
+        for key, value in request.data.items():
+            if key != 'image':
+                data[key] = value
        
+        # Handle image upload
         if 'image' in request.FILES:
             image_upload_data = handle_file_upload(request, 'image', folder='marcus_uploads')
             data['image'] = image_upload_data.get('image')
