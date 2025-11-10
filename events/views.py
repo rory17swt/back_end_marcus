@@ -3,11 +3,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from .models import Event
 from .serializers.common import EventSerializer
 from utils.permissions import IsOwnerOrReadOnly
 from utils.cloudinary import handle_file_upload
+
 
 class EventListCreate(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -15,7 +17,11 @@ class EventListCreate(APIView):
 
     # Index
     def get(self, request):
-        events = Event.objects.all()
+        # Delete expired events
+        Event.objects.filter(datetime__lte=timezone.now()).delete()
+
+        # Return only upcoming events, ordered chronologically
+        events = Event.objects.filter(datetime__gt=timezone.now()).order_by('datetime')
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
@@ -54,4 +60,4 @@ class EventDetailView(APIView):
         event = get_object_or_404(Event, pk=pk)
         self.check_object_permissions(request, event)
         event.delete()
-        return Response({ "detail": "Event deleted" }, status=204)
+        return Response({"detail": "Event deleted"}, status=204)

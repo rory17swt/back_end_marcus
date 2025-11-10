@@ -11,8 +11,9 @@ pylint = "*"
 djangorestframework = "*"
 django-environ = "*"
 djangorestframework-simplejwt = "*"
-cloudinary = "*"
 django-cloudinary-storage = "*"
+cloudinary = "*"
+django-crontab = "*"
 
 [dev-packages]
 
