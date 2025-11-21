@@ -11,7 +11,7 @@ class Event(models.Model):
     title = models.CharField(max_length=100)
     image = models.CharField(max_length=5000)
     datetime = models.DateTimeField()
-    event_url = models.URLField()
+    event_url = models.URLField(max_length=2000)
     location = models.CharField(max_length=500)
 
 def __str__(self):
