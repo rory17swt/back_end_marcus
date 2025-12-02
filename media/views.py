@@ -14,23 +14,30 @@ class MediaListCreate(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
-    # Index
     def get(self, request):
-        medias = Media.objects.all()
+        """
+        List media items with optional production filtering.
+        
+        Query params:
+            - production: filter by production slug
+        """
+        medias = Media.objects.select_related('production').all()
+        
+        # Filter by production slug
+        production_slug = request.query_params.get('production')
+        if production_slug:
+            medias = medias.filter(production__slug=production_slug)
+        
         serializer = MediaSerializer(medias, many=True)
         return Response(serializer.data)
 
-    # Create
     def post(self, request):
-        # Don't use .copy() with files - use a regular dict instead
         data = {}
         
-        # Copy regular fields
         for key, value in request.data.items():
             if key != 'image':
                 data[key] = value
        
-        # Handle image upload
         if 'image' in request.FILES:
             image_upload_data = handle_file_upload(request, 'image', folder='marcus_uploads')
             data['image'] = image_upload_data.get('image')
@@ -47,13 +54,30 @@ class MediaDetailView(APIView):
     permission_classes = [IsOwnerOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
-    # Show
     def get(self, request, pk):
-        media = get_object_or_404(Media, pk=pk)
+        media = get_object_or_404(Media.objects.select_related('production'), pk=pk)
         serializer = MediaSerializer(media)
         return Response(serializer.data)
 
-    # Delete
+    def put(self, request, pk):
+        """Update a media item (e.g., change production tag)"""
+        media = get_object_or_404(Media, pk=pk)
+        self.check_object_permissions(request, media)
+        
+        data = {}
+        for key, value in request.data.items():
+            if key != 'image':
+                data[key] = value
+        
+        if 'image' in request.FILES:
+            image_upload_data = handle_file_upload(request, 'image', folder='marcus_uploads')
+            data['image'] = image_upload_data.get('image')
+        
+        serializer = MediaSerializer(media, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
     def delete(self, request, pk):
         media = get_object_or_404(Media, pk=pk)
         self.check_object_permissions(request, media)
