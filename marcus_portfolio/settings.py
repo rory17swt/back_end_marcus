@@ -15,6 +15,7 @@ import cloudinary
 from datetime import timedelta
 import environ
 import os
+import dj_database_url
 
 env = environ.Env()
 environ.Env.read_env()
@@ -27,17 +28,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lg3&uwh5_h78bc1&somb@lsbh5oa#)h5nbs95%*a-*9qmxz$6f'
+SECRET_KEY = env(
+    'SECRET_KEY', default='django-insecure-lg3&uwh5_h78bc1&somb@lsbh5oa#)h5nbs95%*a-*9qmxz$6f')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'marcus-portfolio-api-2e75b5f2b384.herokuapp.com',
+    '.herokuapp.com',
+    'swietlicki.eu',
+    'www.swietlicki.eu',
+]
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
+    'https://swietlicki.eu',
+    'https://www.swietlicki.eu',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -45,8 +56,9 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
+    'https://swietlicki.eu',
+    'https://www.swietlicki.eu',
 ]
-
 
 # Application definition
 
@@ -76,11 +88,11 @@ CLOUDINARY_STORAGE = {
     'RESOURCE_TYPE': 'raw',
 }
 
-cloudinary.config( 
-  cloud_name = env('CLOUDINARY_CLOUD_NAME'), 
-  api_key = env('CLOUDINARY_API_KEY'), 
-  api_secret = env('CLOUDINARY_API_SECRET'),
-  secure = not DEBUG
+cloudinary.config(
+    cloud_name=env('CLOUDINARY_CLOUD_NAME'),
+    api_key=env('CLOUDINARY_API_KEY'),
+    api_secret=env('CLOUDINARY_API_SECRET'),
+    secure=not DEBUG
 )
 
 # Email Configuration
@@ -108,8 +120,8 @@ AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -143,14 +155,10 @@ WSGI_APPLICATION = 'marcus_portfolio.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': env('DATABASE_NAME'),
-    'HOST': env('DATABASE_HOST'),
-    'USER': env('DATABASE_USER'),
-    'PASSWORD': env('DATABASE_PASSWORD'),
-    'PORT': 5432
-    }
+    'default': dj_database_url.config(
+        default=f"postgresql://{env('DATABASE_USER', default='')}:{env('DATABASE_PASSWORD', default='')}@{env('DATABASE_HOST', default='localhost')}/{env('DATABASE_NAME', default='')}",
+        conn_max_age=600
+    )
 }
 
 
@@ -188,7 +196,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
