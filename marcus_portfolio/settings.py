@@ -49,6 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'https://swietlicki.eu',
     'https://www.swietlicki.eu',
+    'https://marcus-portfolio-front-2066569c5c21.herokuapp.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -58,6 +59,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
     'https://swietlicki.eu',
     'https://www.swietlicki.eu',
+    'https://marcus-portfolio-front-2066569c5c21.herokuapp.com',
 ]
 
 # Application definition
