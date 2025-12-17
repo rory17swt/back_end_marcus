@@ -14,9 +14,9 @@ djangorestframework-simplejwt = "*"
 django-cloudinary-storage = "*"
 cloudinary = "*"
 django-crontab = "*"
-dj-database-url = "*"
-whitenoise = "*"
 gunicorn = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
