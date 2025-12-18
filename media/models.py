@@ -29,6 +29,11 @@ class Production(models.Model):
 
 
 class Media(models.Model):
+    CATEGORY_CHOICES = [
+        ('production', 'Production'),
+        ('personality', 'Personality'),
+    ]
+
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -36,6 +41,7 @@ class Media(models.Model):
     )
     image = models.CharField(max_length=500, blank=True, null=True)
     youtube_url = models.URLField(blank=True, null=True, help_text="Paste the full YouTube URL")
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='production')
     production = models.ForeignKey(
         Production,
         on_delete=models.SET_NULL,

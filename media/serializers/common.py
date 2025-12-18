@@ -17,6 +17,7 @@ class MediaSerializer(serializers.ModelSerializer):
             'image',
             'youtube_url',
             'youtube_embed_url',
+            'category',
             'production',
             'production_name',
             'production_slug',
