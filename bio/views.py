@@ -4,16 +4,12 @@ from rest_framework.response import Response
 from .models import Bio
 from .serializers.common import BioSerializer
 
+
 class CreateBioView(generics.CreateAPIView):
     serializer_class = BioSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        if 'cv' in request.FILES:
-            cv_file = request.FILES['cv']
-            if cv_file.content_type != 'application/pdf':
-                raise ValidationError("Only PDF files are allowed for CV uploads.")
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -43,12 +39,8 @@ class BioDetailUpdateView(generics.RetrieveUpdateAPIView):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
 
-        if 'cv' in request.FILES:
-            cv_file = request.FILES['cv']
-            if cv_file.content_type != 'application/pdf':
-                raise ValidationError("Only PDF files are allowed for CV uploads.")
-
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
