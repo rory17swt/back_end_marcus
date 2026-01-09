@@ -9,7 +9,7 @@ class Bio(models.Model):
         related_name='bio'
     )
     bio = models.TextField(blank=True)
-    cv = models.URLField(blank=True, null=True)
+    cv = models.URLField(max_length=500, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
