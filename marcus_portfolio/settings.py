@@ -104,7 +104,7 @@ EMAIL_HOST = 'mail.hostedemail.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = 'marcus@swietlicki.eu'
+EMAIL_HOST_USER = 'tenor@swietlicki.eu'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
