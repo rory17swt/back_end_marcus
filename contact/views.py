@@ -1,16 +1,12 @@
 from django.core.mail import send_mail
+from django.conf import settings
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import ContactSubmission
 
 
-@ensure_csrf_cookie
-def get_csrf_token(request):
-    return JsonResponse({'message': 'CSRF cookie set'})
-
-
-@csrf_protect
+@csrf_exempt
 @require_http_methods(["POST"])
 def submit_contact_form(request):
     first_name = request.POST.get('first_name', '').strip()
@@ -47,8 +43,8 @@ def submit_contact_form(request):
         send_mail(
             subject=email_subject,
             message=email_body,
-            from_email='marcus@swietlicki.eu',
-            recipient_list=['marcus@swietlicki.eu'],
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.EMAIL_HOST_USER],
             fail_silently=False,
         )
         return JsonResponse({'message': 'Message sent and saved successfully.'})
