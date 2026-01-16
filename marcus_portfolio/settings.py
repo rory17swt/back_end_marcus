@@ -40,16 +40,14 @@ ALLOWED_HOSTS = [
     'localhost',
     'marcus-portfolio-api-2e75b5f2b384.herokuapp.com',
     '.herokuapp.com',
-    'swietlicki.eu',
-    'www.swietlicki.eu',
+    'tenor.swietlicki.eu',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
-    'https://swietlicki.eu',
-    'https://www.swietlicki.eu',
     'https://marcus-portfolio-front-2066569c5c21.herokuapp.com',
+    'https://tenor.swietlicki.eu',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -57,9 +55,8 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
-    'https://swietlicki.eu',
-    'https://www.swietlicki.eu',
     'https://marcus-portfolio-front-2066569c5c21.herokuapp.com',
+    'https://tenor.swietlicki.eu',
 ]
 
 # Application definition
