@@ -48,6 +48,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'https://marcus-portfolio-front-2066569c5c21.herokuapp.com',
     'https://tenor.swietlicki.eu',
+    'https://marcusportfoliosite.netlify.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -57,6 +58,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
     'https://marcus-portfolio-front-2066569c5c21.herokuapp.com',
     'https://tenor.swietlicki.eu',
+    'https://marcusportfoliosite.netlify.app',
 ]
 
 # Application definition
