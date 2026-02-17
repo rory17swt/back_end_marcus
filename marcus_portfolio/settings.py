@@ -97,6 +97,10 @@ cloudinary.config(
     secure=not DEBUG
 )
 
+# SUPABASE
+SUPABASE_URL = env('SUPABASE_URL')
+SUPABASE_KEY = env('SUPABASE_KEY')
+
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.hostedemail.com'

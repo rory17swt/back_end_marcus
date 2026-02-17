@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
 
 from django.conf import settings
 from django.conf.urls.static import static
+from utils.views import keep_alive
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('api/', include('media.urls')),
     path('api/', include('contact.urls')),
     path('api/', include('users.urls')),
+    path('api/keep-alive/', keep_alive),
 ]
 
 if settings.DEBUG:
