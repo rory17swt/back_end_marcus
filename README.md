@@ -14,16 +14,15 @@ This project was planned using **Trello** to track tasks across the design and b
 
 ## Tech Stack
 
-| Layer | Technology | Why |
-|---|---|---|
-| Language | Python 3 | Strong ecosystem for backend and data work |
-| Framework | Django + Django REST Framework | Rapid API development with built-in ORM and admin |
-| Database | PostgreSQL | Relational, production-grade, Heroku-native |
-| Auth | JWT (SimpleJWT) | Stateless, secure, appropriate for a decoupled frontend |
-| Image storage | Cloudinary | Offloads media hosting; returns URLs the frontend consumes directly |
-| Email | SMTP (hosted email) | Contact form submissions forwarded to Marcus's custom domain inbox |
-| Deployment | Heroku + Whitenoise | Simple, reliable PaaS with static file serving built in |
-| Frontend | React (separate repo) | Decoupled architecture — backend is framework-agnostic |
+- **Python**: Strong language for backend and data work
+- **Django and Django REST Framework**: API development
+- **PostgreSQL (Neon)** Relational, cloud database
+- **JWT (SimpleJWT)** Token-based authentication, the frontend stores the token and sends it with every request
+- **Cloudinary** Media hosting, returns URLs the frontend consumes directly
+- **Supabase** Cloud storage for the CV file
+- **SMTP (hosted email)** Contact form submissions forwarded to Marcus's custom domain inbox
+- **Heroku and Whitenoise** Simple, reliable PaaS with static file serving built in
+- **React (separate repo)** Separate frontend that consumes the API
 
 ## Planning & Design
 
@@ -32,7 +31,7 @@ Before writing any code, the project was mapped out using:
 - **Trello board**: Cards for each app, endpoint, and deployment task
 - **Wireframes**: Sketched rough layouts as a guidline for each page of the frontend to clarify what data the backend needed to serve
 
-> 📎 *[Link to trello board]*
+📎 *Link to trello board: https://trello.com/b/97q6ssUJ/marcus-website*
 
 This helped planning the data model decisions before a the models was written.
 
@@ -177,5 +176,5 @@ The Procfile, Whitenoise middleware, and environment variable management via `dj
 
 ## Related
 
-- **Frontend repo:** [https://github.com/rory17swt/front_end_marcus]
-- **Live site:** [swietlicki.eu](https://swietlicki.eu)
+- 📎**Frontend repo:** *https://github.com/rory17swt/front_end_marcus*
+- 📎**Live site:** *[swietlicki.eu](https://swietlicki.eu)*
