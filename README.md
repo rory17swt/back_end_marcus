@@ -10,8 +10,6 @@ Marcus needed a professional website he could manage himself so he can updating 
 
 This project was planned using **Trello** to track tasks across the design and build, and designed with **wireframes** before any code was written.
 
-> 📎 *[Insert wireframe images here — homepage, events list, media gallery, CMS views]*
-
 ## Tech Stack
 
 - **Python**: Strong language for backend and data work
